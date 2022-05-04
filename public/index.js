@@ -86,6 +86,18 @@ async function main() {
         return highest;
     }
 
+    //gets the average values
+    function getAverage(values){
+        //initializes the total to 0
+        let total = 0;
+        values.forEach(value => {
+            //adds each value to the total
+            total += parseFloat(value.high);
+        })
+        //returns total devided by the amount of numbers
+        return total / values.length 
+    }
+
     // HIGHEST CHART CANVAS
     new Chart(highestPriceChartCanvas.getContext('2d'), {
         //bar graph
@@ -108,6 +120,29 @@ async function main() {
         },
 
     });
+
+    // AVERAGE CHART CANVAS
+    new Chart(averagePriceChartCanvas.getContext('2d'), {
+        //pie graph
+        type: 'pie',
+        data: {
+            //Label for stock symbols 
+            labels: stocks.map(stock => stock.meta.symbol),
+            datasets: [{
+                //label for average
+                label: 'Average',
+                //maps over the values array and invokes getAverage() to
+                //find the average value in each stock
+                data: stocks.map(stock => getAverage(stock.values)),
+                //invokes getColor function and obtains 
+                //chosen color for each symbol
+                backgroundColor: stocks.map(stock => (getColor(stock.meta.symbol))),
+                borderColor: stocks.map(stock => (getColor(stock.meta.symbol))),
+
+            }]
+        },
+
+    });    
 
 
 }
