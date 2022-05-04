@@ -42,7 +42,7 @@ async function main() {
     //stocks were in descending order, so this reverses
     //each stock to be ascending order
     stocks.forEach(stock => stock.values.reverse())
-    
+
     // TIME CHART CANVAS
     new Chart(timeChartCanvas.getContext('2d'), {
         //need a line chart not a bar chart
@@ -70,6 +70,44 @@ async function main() {
     });
     
     // console.log(stocks[0].values); //checking the dates
+
+    //gets the highest value
+    function getHighest(values){
+        //initializes highest to 0
+        let highest = 0;
+        //goes through the array values
+        values.forEach(value => {
+            //if the highest value is greater than the current highest,
+            //then that value will become the current highest
+            if(parseFloat(value.high) > highest){
+                highest = value.high;
+            }
+        })
+        return highest;
+    }
+
+    // HIGHEST CHART CANVAS
+    new Chart(highestPriceChartCanvas.getContext('2d'), {
+        //bar graph
+        type: 'bar',
+        data: {
+            //Label for stock symbols 
+            labels: stocks.map(stock => stock.meta.symbol),
+            datasets: [{
+                //label for highest
+                label: 'Highest',
+                //maps over the values array and invokes getHighest() to
+                //find the highest value in each stock
+                data: stocks.map(stock => getHighest(stock.values)),
+                //invokes getColor function and obtains 
+                //chosen color for each symbol
+                backgroundColor: stocks.map(stock => (getColor(stock.meta.symbol))),
+                borderColor: stocks.map(stock => (getColor(stock.meta.symbol))),
+
+            }]
+        },
+
+    });
 
 
 }
