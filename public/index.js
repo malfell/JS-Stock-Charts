@@ -17,8 +17,10 @@ async function main() {
     console.log(parsed); //result is an object
 
     //Turns object into an array
-    const {GME, MSFT, DIS, BNTX} = result;
+    const {GME, MSFT, DIS, BNTX} = mockData;
     const stocks = [GME, MSFT, DIS, BNTX];
+
+    console.log(Chart);
 
 }
 
